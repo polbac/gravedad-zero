@@ -1,4 +1,6 @@
 (function(window) {
+	var WIDTH_P = 0.7, HEIGHT_P = 0.7, APPLY_FORCE = 0.4;
+
 	var Piece = function(canvas, config)
 	{
 		this.initialize(canvas, config);
@@ -144,7 +146,7 @@
 	{
 		var currentX = this.objs[0].x, 
 			currentY = this.objs[0].y,
-			MAX_INTERVAL = 90,
+			MAX_INTERVAL = 60,
 			MARGIN = 3;
 
 		if (p.lastX === undefined) {
@@ -174,7 +176,7 @@
 
 	p.applyForce = function(b)
 	{
-		var FORCE = .4;
+		var FORCE = APPLY_FORCE;
 		var r1 = Math.random();
 		var r2 = Math.random();
 	
@@ -447,8 +449,7 @@
 	}
 	p.createObject = function(def, color)
 	{
-		var W = window.innerWidth * 0.75, H = window.innerHeight * 0.75,
-		    X = window.innerWidth * 0.5, Y = window.innerHeight * 0.5;
+		var W = window.innerWidth * WIDTH_P, H = window.innerHeight * HEIGHT_P;
 		var obj = new Container();
 		obj.def = def;
 		obj.name = def.name + (this.bodyCount++);
@@ -463,8 +464,8 @@
 			rect.graphics.endFill();
 			var shape = obj.addChild(rect);
 			
-			shape.x = part.x;
-			shape.y = part.y;
+			shape.x = 0;
+			shape.y = 0;
 			var g = shape.graphics;
 			var path = part.path;			
 		}
