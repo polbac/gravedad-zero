@@ -1,5 +1,4 @@
 (function(window) {
-	var WIDTH_P = 0.7, HEIGHT_P = 0.7, APPLY_FORCE = 0.4;
 
 	var Piece = function(canvas, config)
 	{
@@ -146,8 +145,8 @@
 	{
 		var currentX = this.objs[0].x, 
 			currentY = this.objs[0].y,
-			MAX_INTERVAL = 60,
-			MARGIN = 3;
+			MAX_INTERVAL = STOPPED_MAX_INTERVAL,
+			MARGIN = STOPPED_MARGIN_OFFSET;
 
 		if (p.lastX === undefined) {
 			p.lastX = currentX;
@@ -160,7 +159,7 @@
 			p.applyForce(this.objs[0]);
 			return;
 		}
-		//console.log(Math.abs(currentX - p.lastX))
+
 		if (
 			Math.abs(currentX - p.lastX) < MARGIN  ||
 			Math.abs(currentY - p.lastY) < MARGIN
@@ -449,18 +448,27 @@
 	}
 	p.createObject = function(def, color)
 	{
-		var W = window.innerWidth * WIDTH_P, H = window.innerHeight * HEIGHT_P;
+		var W = CANVAS_WIDTH * WIDTH_P, H = window.innerHeight * HEIGHT_P;
 		var obj = new Container();
 		obj.def = def;
 		obj.name = def.name + (this.bodyCount++);
 		var ps = def.parts;
 		var c = obj.color = color;
+
 		for (var i=0;i<ps.length;i++)
 		{
 			var part = ps[i];
 			var rect = new Shape()
-			rect.graphics.beginFill(p.randomColor());
-			rect.graphics.drawRect(-W/2, -H/2, W, H);
+			rect.graphics.beginFill('#fff');
+			
+			if (FIGURE === 'rectangle') {
+				rect.graphics.drawRect(-W/2, -H/2, W, H);
+			}
+
+			if (FIGURE === 'ellipse') {
+				rect.graphics.drawEllipse(-W/2, -H/2, W, H);
+			}
+			
 			rect.graphics.endFill();
 			var shape = obj.addChild(rect);
 			
@@ -469,16 +477,46 @@
 			var g = shape.graphics;
 			var path = part.path;			
 		}
-		var xys = [
-			-W/2, -H/2,
-			-W/2,  H/2,
-			 W/2,  H/2,
-			 W/2, -H/2,
+
+		var xys;
+
+		if (FIGURE === 'rectangle') {
+			xys = [
+				-W/2, -H/2,
+				-W/2,  H/2,
+				W/2,  H/2,
+				W/2, -H/2,
+				
+			];
 			
-		];
+		}
+
+		if (FIGURE === 'ellipse') {
+			/* xys = [
+				-W/2, 0,
+				0,  H/2,
+				W/2,  0,
+				0, -H/2,
+				
+			]; */
+			var radY = W/2;
+			var radX = H/2;
+			
+			xys = [];
+
+			for (var i = 0 * Math.PI; i < 2 * Math.PI; i += 0.01 ) {
+				xPos = 0 - (radX * Math.sin(i)) * Math.sin(0 * Math.PI) + (radY * Math.cos(i)) * Math.cos(0 * Math.PI);
+				yPos = 0 + (radY * Math.cos(i)) * Math.sin(0 * Math.PI) + (radX * Math.sin(i)) * Math.cos(0 * Math.PI);
+			
+				xys.push(xPos);
+				xys.push(yPos);
+			}
+		}
+
 		obj.body = this.createPhysicsBody(xys, obj.name);
-		//debug drawing:
-		if (false)
+
+		
+		if (DEBUG)
 		{
 			var vs = obj.body.vertices;
 			var debugShape = obj.addChild(new Shape());
@@ -540,7 +578,7 @@
     var world = this.world = this.engine.world;
     //
     var cfg = this.config;
-    var w = this.width, h = this.height, w2 = w/2, h2 = h/2;
+    var w = CANVAS_WIDTH, h = this.height, w2 = w/2, h2 = h/2;
 		//
 		world.gravity.y = 0;
     //add walls

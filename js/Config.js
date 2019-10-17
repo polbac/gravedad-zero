@@ -27,3 +27,14 @@ Config.entryInterval = [2000,3000];//min max, in msecs.
 Config.secondaryEntryInterval = [10,10];//min max, in msecs. 
 
 //To disable specific objects, comment out corresponding lines in assets.js
+
+var WIDTH_P = 0.6, 
+    HEIGHT_P = 0.6, 
+    APPLY_FORCE = 0.4,
+    DEBUG = false,
+    FIGURE = 'ellipse', // 'rectangle' or 'ellipse'
+    CANVAS_WIDTH = 600,
+    STOPPED_MAX_INTERVAL = 260, 
+    STOPPED_MARGIN_OFFSET = 210;
+    
+// STOPPED_MAX_INTERVAL y STOPPED_MARGIN_OFFSET para el 'ellipse' hay que ponerlos un poco mas alto
