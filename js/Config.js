@@ -33,7 +33,7 @@ var WIDTH_P = 0.6,
     APPLY_FORCE = 0.4,
     DEBUG = false,
     FIGURE = 'ellipse', // 'rectangle' or 'ellipse'
-    CANVAS_WIDTH = 600,
+    CANVAS_WIDTH = "100%", // podes poner "600" y seria pixels o "50%" y seria 50% de la pantalla
     STOPPED_MAX_INTERVAL = 260, 
     STOPPED_MARGIN_OFFSET = 210;
     

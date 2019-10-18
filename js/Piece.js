@@ -446,9 +446,12 @@
 		// Matter.Body.setAngle(body, Math.random()*Math.PI*2);
 		return obj;
 	}
+
+
 	p.createObject = function(def, color)
 	{
-		var W = CANVAS_WIDTH * WIDTH_P, H = window.innerHeight * HEIGHT_P;
+		console.log('>', getCanvasWidth())
+		var W = getCanvasWidth() * WIDTH_P, H = window.innerHeight * HEIGHT_P;
 		var obj = new Container();
 		obj.def = def;
 		obj.name = def.name + (this.bodyCount++);
@@ -578,7 +581,7 @@
     var world = this.world = this.engine.world;
     //
     var cfg = this.config;
-    var w = CANVAS_WIDTH, h = this.height, w2 = w/2, h2 = h/2;
+    var w = getCanvasWidth(), h = this.height, w2 = w/2, h2 = h/2;
 		//
 		world.gravity.y = 0;
     //add walls
@@ -625,3 +628,7 @@
 
 }(window));
 
+var getCanvasWidth = function() {
+	return (CANVAS_WIDTH.indexOf('%') !== -1) ?
+		(window.innerWidth * (Number(CANVAS_WIDTH.replace('%', '')))/100) : CANVAS_WIDTH;
+}
