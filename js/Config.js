@@ -28,13 +28,99 @@ Config.secondaryEntryInterval = [10,10];//min max, in msecs.
 
 //To disable specific objects, comment out corresponding lines in assets.js
 
-var WIDTH_P = 0.6, 
-    HEIGHT_P = 0.6, 
-    APPLY_FORCE = 0.4,
-    DEBUG = false,
-    FIGURE = 'rectangle', // 'rectangle' or 'ellipse'
-    CANVAS_WIDTH = "100%", // podes poner "600" y seria pixels o "50%" y seria 50% de la pantalla
-    STOPPED_MAX_INTERVAL = 300, 
-    STOPPED_MARGIN_OFFSET = 4;
+var responsiveConf = {
+    DEBUG: false,
+    smartphoneLandscape: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    smartphonePortraid: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'ellipse',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    tabletLandscape: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    tabletPortraid: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    desktopLandscape: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    desktopPortraid: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    projectorLandscape: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+    projectorPortraid: {
+        WIDTH_P: 0.6, 
+        HEIGHT_P: 0.6, 
+        APPLY_FORCE: 0.4,
+        FIGURE: 'rectangle',
+        CANVAS_WIDTH: "100%",
+        STOPPED_MAX_INTERVAL: 300, 
+        STOPPED_MARGIN_OFFSET: 4
+    },
+}
+
+function getConfigResponsive() {
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    var key = 'smartphone'
+    var orientation = (width > height) ? 'Landscape' : 'Portraid';
     
-// STOPPED_MAX_INTERVAL y STOPPED_MARGIN_OFFSET para el 'ellipse' hay que ponerlos un poco mas alto
+    if (width >= 720) {
+        key = 'tablet';
+    }
+
+    if (width >= 1024) {
+        key = 'desktop';
+    }
+
+    if (width >= 1600) {
+        key = 'projector';
+    }
+    console.log(key + orientation);
+    return responsiveConf[key + orientation];
+}

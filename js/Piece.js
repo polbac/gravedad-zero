@@ -145,8 +145,8 @@
 	{
 		var currentX = this.objs[0].x, 
 			currentY = this.objs[0].y,
-			MAX_INTERVAL = STOPPED_MAX_INTERVAL,
-			MARGIN = STOPPED_MARGIN_OFFSET;
+			MAX_INTERVAL = getConfigResponsive().STOPPED_MAX_INTERVAL,
+			MARGIN = getConfigResponsive().STOPPED_MARGIN_OFFSET;
 
 		if (p.lastX === undefined) {
 			p.lastX = currentX;
@@ -175,7 +175,7 @@
 
 	p.applyForce = function(b)
 	{
-		var FORCE = APPLY_FORCE;
+		var FORCE = getConfigResponsive().APPLY_FORCE;
 		var r1 = Math.random();
 		var r2 = Math.random();
 	
@@ -451,7 +451,7 @@
 	p.createObject = function(def, color)
 	{
 		console.log('>', getCanvasWidth())
-		var W = getCanvasWidth() * WIDTH_P, H = window.innerHeight * HEIGHT_P;
+		var W = getCanvasWidth() * getConfigResponsive().WIDTH_P, H = window.innerHeight * getConfigResponsive().HEIGHT_P;
 		var obj = new Container();
 		obj.def = def;
 		obj.name = def.name + (this.bodyCount++);
@@ -464,11 +464,11 @@
 			var rect = new Shape()
 			rect.graphics.beginFill('#fff');
 			
-			if (FIGURE === 'rectangle') {
+			if (getConfigResponsive().FIGURE === 'rectangle') {
 				rect.graphics.drawRect(-W/2, -H/2, W, H);
 			}
 
-			if (FIGURE === 'ellipse') {
+			if (getConfigResponsive().FIGURE === 'ellipse') {
 				rect.graphics.drawEllipse(-W/2, -H/2, W, H);
 			}
 			
@@ -483,7 +483,7 @@
 
 		var xys;
 
-		if (FIGURE === 'rectangle') {
+		if (getConfigResponsive().FIGURE === 'rectangle') {
 			xys = [
 				-W/2, -H/2,
 				-W/2,  H/2,
@@ -494,7 +494,7 @@
 			
 		}
 
-		if (FIGURE === 'ellipse') {
+		if (getConfigResponsive().FIGURE === 'ellipse') {
 			/* xys = [
 				-W/2, 0,
 				0,  H/2,
@@ -519,7 +519,7 @@
 		obj.body = this.createPhysicsBody(xys, obj.name);
 
 		
-		if (DEBUG)
+		if (responsiveConf.DEBUG)
 		{
 			var vs = obj.body.vertices;
 			var debugShape = obj.addChild(new Shape());
@@ -629,6 +629,6 @@
 }(window));
 
 var getCanvasWidth = function() {
-	return (CANVAS_WIDTH.indexOf('%') !== -1) ?
-		(window.innerWidth * (Number(CANVAS_WIDTH.replace('%', '')))/100) : CANVAS_WIDTH;
+	return (getConfigResponsive().CANVAS_WIDTH.indexOf('%') !== -1) ?
+		(window.innerWidth * (Number(getConfigResponsive().CANVAS_WIDTH.replace('%', '')))/100) : getConfigResponsive().CANVAS_WIDTH;
 }
